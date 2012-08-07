@@ -1,45 +1,72 @@
-jQuery(document).ready(function(){
+var AlbumArt =
+{
+	init: function()
+	{
 
-	//This is to remove the validation image if no poster is present
-	$('#artist').focus(function(){
-		var full = $("#album-art").has("img").length ? true : false;
-		if(full == false){
-			$("#album-art").empty();
-		}
-	});
+		$('#search').click(function(event){
+			AlbumArt.artist();
+		});
 
-	//function definition
-	var getAlbum = function(){
+		$("#get-album").click(function(event){
+			AlbumArt.artwork();
+		});
 
-		//Grab the album title and store it in a variable 
-		var artistName = $("#artist").val();
-		var albumTitle = $("#album").val();
+	},
 
-		//check if the user has entered anything
-		if(artistName == ' '){
-			//if the input field is empty display a message
-			$('#album-art').html('<h2 class="msg">You forgot to enter the album title. Did you mean The White Album?</h2>');		
-		} else {
-			$.get("http://ws.audioscrobbler.com/2.0/?method=album.getinfo&format=json&api_key=5f35804e9c13dac1ecd42129d7a99ad8&album=" + albumTitle + "&artist=" + artistName + "&callback=&", function(data){
+	artist: function()
+	{
+
+		var artistName = $('#artist').val();
+
+		var getArtist = function() {
+
+			$.get("http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" + artistName + "&api_key=5f35804e9c13dac1ecd42129d7a99ad8&format=json&callback=", function(data){
 
 				console.log(data);
-				//alert();
+				
+				var albumList = document.createElement('select');
+				
+				for (var i = 0; i < data.topalbums.album.length; i++) {
+					
+					data.topalbums.album[i];
+					
+					var albums = $(albumList).append('<option value="' + data.topalbums.album[i].name + '">' + data.topalbums.album[i].name + '</option>');
+
+				};
+
+				var albumOptions = $("#albums").html(albums);
+
+			});
+
+		};
+
+		getArtist();
+
+	},
+
+	artwork: function(artistName)
+	{
+		var artistName = $('#artist').val();
+		var albumName = $("#albums select").val();
+
+
+		var getImage = function() {
+
+			$.get("http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=5f35804e9c13dac1ecd42129d7a99ad8&artist=" + artistName + "&album=" + albumName +"&format=json&callback=", function(data){
+
+				console.log(data);
+
 				$("#album-art").html("<h2>" + data.album.name + " by " + data.album.artist + "</h2><img src='" + data.album.image[2]['#text'] + "' /> ");
 
 			});
 
-		}
+		};
 
-		return false;
-
+		getImage();
 	}
+}
 
-	$("#search").click(getAlbum);
 
-	$("#album").keyup(function(event){
-		if(event.keyCode == 13){
-			getAlbum();
-		}
-	});
-
-});
+jQuery(document).ready(function(){
+	AlbumArt.init();
+})
