@@ -1,0 +1,143 @@
+html, body, div, header, section, h1, form, input, select, img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	background: url(images/bg_pattern_dust.png) 0 0 repeat;
+	font-size: 67.5%;
+	font-family: "American Typewriter", Georgia, "Times New Roman", Times, serif;
+}
+
+div.container {
+	position: relative;
+	width: 100%;
+	min-height: 360px;
+	height: auto;
+	margin: 0 auto;
+	border: 1px solid #222;
+}
+
+a { color: #222; }
+
+header {
+	padding: 5px 0 12px;
+}
+
+header h1#logo {
+	width: 80%;
+	height: 26px;
+	margin: 0 auto;
+	background: url(images/logo_.png) center center no-repeat;
+	text-indent: -9999px;
+}
+
+section#fetch {
+	position: relative;
+	width: 80%;
+	margin: 0 auto;
+}
+
+section#fetch input[type="text"] {
+	width: 96%;
+	padding: 2%;
+	letter-spacing: .1em;
+	-webkit-border-radius: 3px 0px 0px 3px;
+    border-radius: 3px 0px 0px 3px;
+}
+
+section#fetch button {
+	display: none;
+	width: 100%;
+	margin: 0;
+	padding: 8px 5px;
+	border: 0;
+	background: #ccc;
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+section#fetch div#albums {
+	width: 100%;
+	margin: 5px auto;
+}
+
+section#fetch div#albums select {
+	width: 100%;
+	height: 24px;
+	background-color: #444;
+	color: #fff;
+}
+
+section#album-art {
+	display: block;
+	width: 80%;
+	margin: 0 auto 26px;
+}
+
+section#album-art h2 {
+	margin: 0;
+	font-size: .8em;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: right;
+	color: #808080;
+}
+
+section#album-art img {
+	max-width: 100%;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 97%;
+	height: 26px;
+	margin-right: 3%;
+	font-size: 1em;
+	text-align: right;
+}
+
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+}
+
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+	only screen and (-o-min-device-pixel-ratio: 3/2),
+	only screen and (min--moz-device-pixel-ratio: 1.5),
+	only screen and (min-device-pixel-ratio: 1.5) {
+		
+		body { 
+			background-image: url(images/bg_pattern_dust_@2X.png); 
+
+		}
+		header h1#logo { 
+			background-image: url(images/logo_@2X.png);  
+			background-size: 235px 25px;
+			background-repeat: no-repeat;
+			background-position: center center;
+		}
+
+}
+
+

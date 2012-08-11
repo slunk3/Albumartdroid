@@ -3,66 +3,73 @@ var AlbumArt =
 	init: function()
 	{
 
-		$('#search').click(function(event){
+		$('#search-artist').click(function(event){
 			AlbumArt.artist();
 		});
 
-		$("#get-album").click(function(event){
-			AlbumArt.artwork();
-		});
+		$('#artist').keyup(function(event){
+		 	if(event.keyCode == 13){
+		 		AlbumArt.artist();
+		 	}
+		 });
 
+		$('#display-album').click(function(event){
+			AlbumArt.artwork();
+		})
 	},
 
-	artist: function()
+	artist: function(button)
 	{
 
 		var artistName = $('#artist').val();
 
-		var getArtist = function() {
 
-			$.get("http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" + artistName + "&api_key=5f35804e9c13dac1ecd42129d7a99ad8&format=json&callback=", function(data){
+		$.get("http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" + artistName + "&autocorrect=1&api_key=5f35804e9c13dac1ecd42129d7a99ad8&format=json&callback=", function(data){
 
-				console.log(data);
+			console.log(data);
+			
+			var albumList = document.createElement('select');
+			
+			albumList.id = "album-list";
+
+			for (var i = 0; i < data.topalbums.album.length; i++) {
 				
-				var albumList = document.createElement('select');
+				data.topalbums.album[i];
 				
-				for (var i = 0; i < data.topalbums.album.length; i++) {
-					
-					data.topalbums.album[i];
-					
-					var albums = $(albumList).append('<option value="' + data.topalbums.album[i].name + '">' + data.topalbums.album[i].name + '</option>');
+				var albums = $(albumList).append('<option value="' + data.topalbums.album[i].name + '">' + data.topalbums.album[i].name + '</option>');
 
-				};
+			};
 
-				var albumOptions = $("#albums").html(albums);
+			var albumOptions = $("#albums").html(albums);
 
-			});
+		});
 
-		};
-
-		getArtist();
-
+		$('#display-album').css('display', 'block');
 	},
 
-	artwork: function(artistName)
+	artwork: function()
 	{
 		var artistName = $('#artist').val();
 		var albumName = $("#albums select").val();
 
+		$.get("http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=5f35804e9c13dac1ecd42129d7a99ad8&artist=" + artistName + "&album=" + albumName +"&format=json&callback=", function(data){
 
-		var getImage = function() {
+			console.log(data);
 
-			$.get("http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=5f35804e9c13dac1ecd42129d7a99ad8&artist=" + artistName + "&album=" + albumName +"&format=json&callback=", function(data){
+			var artwork = $("#album-art").html("<h2>" + data.album.name + " </h2><img src='" + data.album.image[3]['#text'] + "' /> ");
 
-				console.log(data);
+			var animate = function() {
 
-				$("#album-art").html("<h2>" + data.album.name + " by " + data.album.artist + "</h2><img src='" + data.album.image[2]['#text'] + "' /> ");
 
-			});
+				$("html,body").animate({scrollTop : 100}, 1500);
+//				$(artwork).animate({'margin-top' : '-100px'}, 1000);	
 
-		};
+			};
 
-		getImage();
+			setTimeout(animate, 1500);
+			
+
+		});
 	}
 }
 
